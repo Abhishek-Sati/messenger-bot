@@ -18,3 +18,7 @@ export enum NodeEnvironments {
     STAGING = "staging",
     PRODUCTION = "production",
 }
+
+export enum RedisCachedKeys {
+    ALL_MESSAGES = "ALL_MESSAGES",
+}

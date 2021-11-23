@@ -11,6 +11,7 @@ declare global {
             PGUSER: string;
             PGPASSWORD: string;
             NODE_ENV: NodeEnvironments;
+            REDIS_PORT: string;
         }
     }
 }
