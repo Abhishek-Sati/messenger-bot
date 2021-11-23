@@ -9,7 +9,7 @@ Package Requirements:
 Application setup: 
 
 1. Open postgres either by terminal or by pgAdmin4, create a database(create database messenger).
-2. create a relation inside newly created database (create table message (message_id VARCHAR PRIMARY KEY, message TEXT, is_bot BOOLEAN DEFAULT FALSE, created_at TIMESTAMP DEFAULT NOW()))
+2. create a relation inside newly created database (create table message (message_id VARCHAR PRIMARY KEY, message TEXT, type VARCHAR(10), is_bot BOOLEAN DEFAULT FALSE, created_at TIMESTAMP DEFAULT NOW()))
 3. create an .env file which will be storing all the important key value pairs that we don't want to expose, for this project we need to add following values into our .env file:
    
    PORT=5000

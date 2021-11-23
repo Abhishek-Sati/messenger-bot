@@ -52,13 +52,13 @@ export const respondAndSaveMessage = async (socket: Socket, messageData: NewMess
             break
         }
     }
-    await saveMessage(messageToSend.message, true)
+    await saveMessage(messageToSend.message, messageToSend.type, true)
     socket.emit('receiveMessage', { ...messageToSend, fromBot: true, prevMessageId: message_id })
 }
 
 export const sendMessageHandler = (socket: Socket) => async (data: NewMessageType, cb: (err: any, data?: any) => void) => {
     try {
-        const [ response ] = await saveMessage(data.message) as [ NewMessageType ]
+        const [ response ] = await saveMessage(data.message, data.type) as [ NewMessageType ]
         cb(false, { ...data, message_id: response.message_id })
         await respondAndSaveMessage(socket, { ...data, message_id: response.message_id })
     } catch (e) {
