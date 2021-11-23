@@ -1,8 +1,13 @@
-import { io } from "."
 import { saveMessage } from "../actions/message"
+import { Socket } from "socket.io"
 
 
-io.on('sendMessage', async (data) => {
-    await saveMessage(data.user_id, data.message)
-    io.emit('receiveMessage', 'message received')
-})
+export const sendMessageHandler = (socket: Socket) => async (data: any, cb: (err: any, data?: any) => void) => {
+    try {
+        await saveMessage(data.message_id, data.message)
+        cb(false, data)
+        socket.emit('receiveMessage', 'message received')
+    } catch (e) {
+        cb(true, e)
+    }
+}
