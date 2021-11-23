@@ -29,7 +29,7 @@ export const respondAndSaveMessage = async (socket: Socket, messageData: NewMess
         }
         case MessageType.DOB: {
             messageToSend = {
-                message: 'Do you want count of days remaining till your birth day',
+                message: 'Do you want count of days remaining till your birthday?',
                 type: MessageType.DAYS_LEFT
             }
             break
@@ -52,7 +52,7 @@ export const respondAndSaveMessage = async (socket: Socket, messageData: NewMess
             break
         }
     }
-    await saveMessage(messageToSend.message)
+    await saveMessage(messageToSend.message, true)
     socket.emit('receiveMessage', { ...messageToSend, fromBot: true, prevMessageId: message_id })
 }
 
