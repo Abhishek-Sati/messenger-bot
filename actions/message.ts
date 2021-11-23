@@ -5,3 +5,7 @@ export const getAllMessages = async () => {
 export const getMessageById = async (message_id: number) => {
     return ''
 }
+
+export const saveMessage = async (user_id: number, message: string) => {
+
+}

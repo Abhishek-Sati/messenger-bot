@@ -3,6 +3,7 @@ import cors from "cors"
 import { ErrorHandler } from "./utils/types"
 import { appRouter } from "./routes"
 import { logger, morganMiddleware } from "./config/logs"
+import { Server, Socket } from "socket.io"
 
 
 const app = express()
@@ -37,4 +38,19 @@ app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => 
     })
 })
 
-app.listen(PORT, () => logger.debug(`Server is up & listening on port => ${PORT}`))
+const server = app.listen(PORT, () => logger.debug(`Server is up & listening on port => ${PORT}`))
+
+export const io = new Server(server, { cors: { origin: '*' } })
+
+// connection event
+io.on('connection', (socket: Socket) => {
+    logger.info(`User with socket id : ${socket.id} is connected`)
+    io.emit('connection', 'You are connected successfully!')
+})
+
+// disconnect event
+io.on('disconnect', (socket: Socket) => {
+    logger.info(`User with socket id : ${socket.id} is disconnected`)
+})
+
+
