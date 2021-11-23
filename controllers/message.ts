@@ -11,7 +11,7 @@ export const getAllMessagesController: RequestHandler = async (req, res, next) =
     }
 }
 
-export const getMessageByIdController: RequestHandler<{ message_id: number }> = async (req, res, next) => {
+export const getMessageByIdController: RequestHandler<{ message_id: string }> = async (req, res, next) => {
     const { message_id } = req.params
     try {
         const response = await getMessageById(message_id)

@@ -20,5 +20,12 @@ export enum NodeEnvironments {
 }
 
 export enum RedisCachedKeys {
-    ALL_MESSAGES = "ALL_MESSAGES",
+    ALL_MESSAGES = "ALL_MESSAGES"
+}
+
+export enum MessageType {
+    NAME = 'name',
+    DOB = 'dob',
+    DAYS_LEFT = 'days_left',
+    END = 'end'
 }
