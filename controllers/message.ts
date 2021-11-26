@@ -1,12 +1,11 @@
 import { RequestHandler } from "express"
 import { deleteMessageById, getAllMessages, getMessageById } from "../services/message"
-import { getRedisClientCache } from "../utils/helpers"
-import { RedisCachedKeys } from "../utils/types"
 
 
 export const getAllMessagesController: RequestHandler = async (req, res, next) => {
     try {
-        getRedisClientCache(RedisCachedKeys.ALL_MESSAGES, getAllMessages, res)
+        const response: any = getAllMessages()
+        res.status(200).send({ data: response, count: response.length })
     } catch (error) {
         next(error)
     }
