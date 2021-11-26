@@ -1,7 +1,7 @@
-import { saveMessage } from "../actions/message"
+import { saveMessage } from "../services/message"
 import { Socket } from "socket.io"
 import { MessageType } from "../utils/types"
-import { findMessageById } from "../actions/common"
+import { findMessageById } from "../services/common"
 import { daysRemaining } from "../utils/helpers"
 
 

@@ -1,5 +1,5 @@
 import { RequestHandler } from "express"
-import { deleteMessageById, getAllMessages, getMessageById } from "../actions/message"
+import { deleteMessageById, getAllMessages, getMessageById } from "../services/message"
 import { getRedisClientCache } from "../utils/helpers"
 import { RedisCachedKeys } from "../utils/types"
 

@@ -23,8 +23,14 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use(morganMiddleware)
 
+app.use(express.static('./views/public'))
+
+app.set('view engine', 'ejs')
+
+app.set('views', './views/src')
+
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).send("Messenger Bot")
+    res.render('./chatbot')
 })
 
 app.use("/api", appRouter)
