@@ -1,7 +1,5 @@
 import knex from "../config/db"
 import * as crypto from "crypto"
-import { redisClient } from "../config/redis"
-import { RedisCachedKeys } from "../utils/types"
 import { findMessageById } from "./common"
 
 
@@ -14,8 +12,6 @@ export const getMessageById = async (message_id: string) => {
 }
 
 export const saveMessage = (message: string, type: string, is_bot: boolean = false) => {
-    // delete redis cached data when db updates.
-    redisClient.del(RedisCachedKeys.ALL_MESSAGES)
 
     return knex('message').insert({
         type,
