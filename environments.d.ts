@@ -12,6 +12,7 @@ declare global {
             PGPASSWORD: string;
             NODE_ENV: NodeEnvironments;
             REDIS_PORT: string;
+            WEBHOOK_VERIFY_TOKEN: string;
         }
     }
 }

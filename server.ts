@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from "express"
 import cors from "cors"
+import bodyParser from "body-parser"
 import { ErrorHandler } from "./utils/types"
 import { appRouter } from "./routes"
 import { logger, morganMiddleware } from "./config/logs"
@@ -19,6 +20,10 @@ app.use(express.json())
 
 app.use(express.urlencoded({ extended: false }))
 
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(morganMiddleware)
 
 app.use(express.static('./views/public'))
@@ -31,7 +36,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.render('./chatbot')
 })
 
-app.use("/api", appRouter)
+app.use(appRouter)
 
 app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
     logger.error(err)
