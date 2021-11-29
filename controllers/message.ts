@@ -1,5 +1,5 @@
 import { RequestHandler } from "express"
-import { deleteMessageById, getAllMessages, getMessageById } from "../services/message"
+import { deleteMessageById, getAllMessages, getMessageById } from "../repositories/message"
 
 
 export const getAllMessagesController: RequestHandler = async (req, res, next) => {
