@@ -41,12 +41,23 @@ function firstTrait(nlp: NLPType, name: string) {
 
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
-    console.log('greetings : ', received_message.nlp, process.env.FACEBOOK_PAGE_TOKEN)
-    const greeting = firstTrait(received_message.nlp, 'wit$greetings')
-    if (greeting && greeting.confidence > 0.8) {
+    console.log('greetings : ', received_message.nlp)
+    const greetingList = [ 'wit$greetings', 'wit$datetime:$datetime', 'wit$thanks', 'wit$bye' ]
+    let selectedGreeting
+    greetingList.forEach((greeting) => {
+        if (firstTrait(received_message.nlp, greeting)?.confidence > 0.8) {
+            selectedGreeting = greeting
+        }
+    })
+    if (selectedGreeting === 'wit$greetings') {
         callSendAPI(sender_psid, 'Hey, Enter your first Name!')
+    } else if (selectedGreeting === 'wit$datetime:$datetime') {
+        callSendAPI(sender_psid, 'Do want to check number of days left for your next birthday?')
+    } else if (selectedGreeting === 'wit$thanks') {
+        callSendAPI(sender_psid, 'Your Welcome')
+    } else if (selectedGreeting === 'wit$bye') {
+        callSendAPI(sender_psid, 'Bye, have a nice day ahead!')
     } else {
-        // default logic
         callSendAPI(sender_psid, 'Default Message')
     }
 }
