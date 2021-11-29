@@ -2,29 +2,6 @@
 import request from 'request'
 
 
-// function handleMessage(sender_psid: string, received_message: { text: string }) {
-//     let response
-//
-//     // Check if the message contains text
-//     if (received_message.text) {
-//
-//         // Create the payload for a basic text message
-//         response = {
-//             "text": `You sent the message: "${received_message.text}". Now send me an image!`
-//         }
-//     }
-//
-//     // Sends the response message
-//     callSendAPI(sender_psid, response)
-// }
-
-
-// Handles messaging_postbacks events
-function handlePostback(sender_psid: string, received_postback: string) {
-
-}
-
-
 // Sends response messages via the Send API
 function callSendAPI(sender_psid: string, response: any) {
     // Construct the message body
@@ -62,7 +39,7 @@ function firstTrait(nlp: NLPType, name: string) {
 }
 
 
-function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
+export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
     const greeting = firstTrait(received_message.nlp, 'wit$greetings')
     if (greeting && greeting.confidence > 0.8) {
@@ -71,4 +48,22 @@ function handleMessage(sender_psid: string, received_message: { text: string, nl
         // default logic
         callSendAPI(sender_psid, 'Default Message')
     }
+}
+
+
+// Handles messaging_postbacks events
+export function handlePostback(sender_psid: string, received_postback: { payload: any }) {
+    let response
+
+    // Get the payload for the postback
+    let payload = received_postback.payload
+
+    // Set the response based on the postback payload
+    if (payload === 'yes') {
+        response = { "text": "Thanks!" }
+    } else if (payload === 'no') {
+        response = { "text": "Oops, try sending another image." }
+    }
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response)
 }
