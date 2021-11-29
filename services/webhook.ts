@@ -1,5 +1,6 @@
 // Handles messages events
 import request from 'request'
+import { saveMessage } from "../repositories/message"
 
 
 // Sends response messages via the Send API
@@ -41,25 +42,27 @@ function firstTrait(nlp: NLPType, name: string) {
 
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
-    console.log('greetings : ', received_message.nlp)
     const greetingList = [ 'wit$greetings', 'wit$datetime:$datetime', 'wit$thanks', 'wit$bye' ]
     let selectedGreeting
+    let messageToSend = ''
     greetingList.forEach((greeting) => {
         if (firstTrait(received_message.nlp, greeting)?.confidence > 0.8) {
             selectedGreeting = greeting
         }
     })
     if (selectedGreeting === 'wit$greetings') {
-        callSendAPI(sender_psid, 'Hey, Enter your first Name!')
+        messageToSend = 'Hey, Enter your first Name!'
     } else if (selectedGreeting === 'wit$datetime:$datetime') {
-        callSendAPI(sender_psid, 'Do want to check number of days left for your next birthday?')
+        messageToSend = 'Do want to check number of days left for your next birthday?'
     } else if (selectedGreeting === 'wit$thanks') {
-        callSendAPI(sender_psid, 'Your Welcome')
+        messageToSend = 'Your Welcome'
     } else if (selectedGreeting === 'wit$bye') {
-        callSendAPI(sender_psid, 'Bye, have a nice day ahead!')
+        messageToSend = 'Bye, have a nice day ahead!'
     } else {
-        callSendAPI(sender_psid, 'Default Message')
+        messageToSend = 'default'
     }
+    callSendAPI(sender_psid, messageToSend)
+    saveMessage(messageToSend)
 }
 
 
@@ -78,4 +81,7 @@ export function handlePostback(sender_psid: string, received_postback: { payload
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response)
+    if (response?.text) {
+        saveMessage(response.text)
+    }
 }

@@ -4,18 +4,15 @@ import { findMessageById } from "./common"
 
 
 export const getAllMessages = () => {
-    return knex.from('message').select([ 'message', 'message_id', { fromBot: 'is_bot' }, 'type' ])
+    return knex.from('message').select([ 'message', 'message_id' ])
 }
 
 export const getMessageById = async (message_id: string) => {
     return findMessageById(message_id)
 }
 
-export const saveMessage = (message: string, type: string, is_bot: boolean = false) => {
-
+export const saveMessage = (message: string) => {
     return knex('message').insert({
-        type,
-        is_bot,
         message,
         message_id: crypto.randomBytes(20).toString('hex')
     }).returning([ 'message_id', 'message' ])
