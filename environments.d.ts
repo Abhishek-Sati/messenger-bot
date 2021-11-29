@@ -13,6 +13,7 @@ declare global {
             NODE_ENV: NodeEnvironments;
             REDIS_PORT: string;
             WEBHOOK_VERIFY_TOKEN: string;
+            FACEBOOK_PAGE_TOKEN: string;
         }
     }
 }

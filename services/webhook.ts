@@ -41,7 +41,7 @@ function firstTrait(nlp: NLPType, name: string) {
 
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
-    console.log('greetings : ', received_message)
+    console.log('greetings : ', received_message.nlp, process.env.FACEBOOK_PAGE_TOKEN)
     const greeting = firstTrait(received_message.nlp, 'wit$greetings')
     if (greeting && greeting.confidence > 0.8) {
         callSendAPI(sender_psid, 'Hey, Enter your first Name!')
