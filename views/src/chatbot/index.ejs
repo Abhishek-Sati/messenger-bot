@@ -4,15 +4,14 @@
     <title>Messenger Webhook</title>
 </head>
 <body class="container">
-<main>
-    <!-- Messenger Chat plugin Code -->
-    <div id="fb-root"></div>
 
-    <!-- Your Chat plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
-</main>
-</body>
+<!-- Messenger Chat plugin Code -->
+<div id="fb-root"></div>
+
+<!-- Your Chat plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
 <script>
     const chatbox = document.getElementById('fb-customer-chat')
     chatbox.setAttribute("page_id", "101217145738600")
@@ -34,4 +33,5 @@
         fjs.parentNode.insertBefore(js, fjs)
     }(document, 'script', 'facebook-jssdk'))
 </script>
+</body>
 </html>

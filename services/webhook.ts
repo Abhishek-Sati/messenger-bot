@@ -35,7 +35,7 @@ type NLPType = {
 
 
 function firstTrait(nlp: NLPType, name: string) {
-    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0]
+    return nlp?.entities && nlp.traits?.[name]?.[0]
 }
 
 
