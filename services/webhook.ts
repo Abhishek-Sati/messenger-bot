@@ -41,9 +41,10 @@ function firstTrait(nlp: NLPType, name: string) {
 
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
+    console.log('greetings : ', received_message)
     const greeting = firstTrait(received_message.nlp, 'wit$greetings')
     if (greeting && greeting.confidence > 0.8) {
-        callSendAPI(sender_psid, 'Hi there!')
+        callSendAPI(sender_psid, 'Hey, Enter your first Name!')
     } else {
         // default logic
         callSendAPI(sender_psid, 'Default Message')
