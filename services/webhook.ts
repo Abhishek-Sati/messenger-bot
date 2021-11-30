@@ -58,8 +58,8 @@ export function handleMessage(sender_psid: string, received_message: { text: str
         messageToSend = 'Do want to check number of days left for your next birthday?'
     } else if (selectedGreeting === 'wit$greetings') {
         messageToSend = 'Hey, Enter your first Name!'
-    } else if (selectedGreeting === 'wit$datetime:$datetime') {
-        messageToSend = 'Do want to check number of days left for your next birthday?'
+    } else if (nlp(received_message.text).people()?.list?.length) {
+        messageToSend = 'Enter Your date of birth, in YYYY-MM-DD format'
     } else if (selectedGreeting === 'wit$thanks') {
         messageToSend = 'Your Welcome'
     } else if (selectedGreeting === 'wit$bye') {
@@ -68,10 +68,19 @@ export function handleMessage(sender_psid: string, received_message: { text: str
         messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
     } else if (received_message.text?.toLocaleLowerCase().startsWith('n')) {
         messageToSend = `Good Bye!`
-    } else {
+    }
+    // else if (nlp(received_message.text).verbs().isPositive()) {
+    //     messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
+    // } else if (nlp(received_message.text).verbs().isNegative()) {
+    //     messageToSend = `Good Bye!`
+    // }
+    else {
         messageToSend = 'Sorry, I don’t Understand'
-        const doc = nlp('John F. Kennedy')
-        console.log('nouns', doc.people())
+        console.log(nlp('no').verbs().isPositive())
+        console.log(nlp('yes').verbs().isPositive())
+        console.log(nlp('no').verbs().isNegative())
+        console.log(nlp('yes').verbs().isNegative())
+
     }
     callSendAPI(sender_psid, messageToSend)
     saveMessage(messageToSend)
