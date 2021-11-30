@@ -48,7 +48,7 @@ let dob: string
 
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
-    const greetingList = [ 'wit$greetings', 'wit$datetime:$datetime', 'wit$thanks', 'wit$bye' ]
+    const greetingList = [ 'wit$greetings', 'wit$thanks', 'wit$bye' ]
     let selectedGreeting
     let messageToSend = ''
     greetingList.forEach((greeting) => {
