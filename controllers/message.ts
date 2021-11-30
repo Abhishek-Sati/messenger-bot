@@ -4,7 +4,7 @@ import { deleteMessageById, getAllMessages, getMessageById } from "../repositori
 
 export const getAllMessagesController: RequestHandler = async (req, res, next) => {
     try {
-        const response: any = getAllMessages()
+        const response: any = await getAllMessages()
         res.status(200).send({ data: response, count: response.length })
     } catch (error) {
         next(error)

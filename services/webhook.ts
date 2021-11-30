@@ -63,8 +63,7 @@ export async function handleMessage(sender_psid: string, received_message: { tex
         messageToSend = 'default'
     }
     callSendAPI(sender_psid, messageToSend)
-    const response = await saveMessage(messageToSend)
-    console.log('response from db : ', response)
+    await saveMessage(messageToSend)
 }
 
 

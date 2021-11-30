@@ -3,9 +3,8 @@ import * as crypto from "crypto"
 import { findMessageById } from "./common"
 
 
-export const getAllMessages = async () => {
-    const response = await knex.from('message').select([ 'message', 'message_id' ])
-    console.log('response : ', response)
+export const getAllMessages = () => {
+    return knex.from('message').select([ 'message', 'message_id' ])
 }
 
 export const getMessageById = async (message_id: string) => {
