@@ -2,6 +2,7 @@
 import request from 'request'
 import { saveMessage } from "../repositories/message"
 import moment from "moment"
+import nlp from "compromise"
 import { daysRemaining } from "../utils/helpers"
 
 
@@ -54,7 +55,7 @@ export function handleMessage(sender_psid: string, received_message: { text: str
     })
     const isValidDate = moment(received_message.text, 'YYYY-MM-DD', true).isValid()
     if (isValidDate) {
-        messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
+        messageToSend = 'Do want to check number of days left for your next birthday?'
     } else if (selectedGreeting === 'wit$greetings') {
         messageToSend = 'Hey, Enter your first Name!'
     } else if (selectedGreeting === 'wit$datetime:$datetime') {
@@ -63,8 +64,14 @@ export function handleMessage(sender_psid: string, received_message: { text: str
         messageToSend = 'Your Welcome'
     } else if (selectedGreeting === 'wit$bye') {
         messageToSend = 'Bye, have a nice day ahead!'
+    } else if (received_message.text?.toLocaleLowerCase().startsWith('y')) {
+        messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
+    } else if (received_message.text?.toLocaleLowerCase().startsWith('n')) {
+        messageToSend = `Good Bye!`
     } else {
-        messageToSend = 'default'
+        messageToSend = 'Sorry, I don’t Understand'
+        const doc = nlp('John F. Kennedy')
+        console.log('nouns', doc.people())
     }
     callSendAPI(sender_psid, messageToSend)
     saveMessage(messageToSend)
