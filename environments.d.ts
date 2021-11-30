@@ -10,6 +10,7 @@ declare global {
             PGDATABASE: string;
             PGUSER: string;
             PGPASSWORD: string;
+            PGURI: string;
             NODE_ENV: NodeEnvironments;
             REDIS_PORT: string;
             WEBHOOK_VERIFY_TOKEN: string;
