@@ -1,5 +1,6 @@
 import { RequestHandler } from "express"
 import { handleMessage, handlePostback } from "../services/webhook"
+import { saveMessage } from "../repositories/message"
 
 
 export const getWebHook: RequestHandler = (req, res, next) => {
@@ -51,6 +52,7 @@ export const postWebHook: RequestHandler = (req, res, next) => {
                 // Check if the event is a message or postback and
                 // pass the event to the appropriate handler function
                 if (webhook_event.message) {
+                    saveMessage(webhook_event.message?.text)
                     handleMessage(sender_psid, webhook_event.message)
                 } else if (webhook_event.postback) {
                     handlePostback(sender_psid, webhook_event.postback)

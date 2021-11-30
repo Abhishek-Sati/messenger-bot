@@ -11,8 +11,8 @@ export const getMessageById = async (message_id: string) => {
     return findMessageById(message_id)
 }
 
-export const saveMessage = (message: string) => {
-    return knex('message').insert({
+export const saveMessage = async (message: string) => {
+    return await knex('message').insert({
         message,
         message_id: crypto.randomBytes(20).toString('hex')
     }).returning([ 'message_id', 'message' ])

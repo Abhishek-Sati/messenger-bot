@@ -21,8 +21,7 @@ function callSendAPI(sender_psid: string, response: any) {
         "json": request_body
     }, async (err, res, body) => {
         if (!err) {
-            const res = await saveMessage(response)
-            console.log('message sent!', response, res)
+            console.log('message sent!', response)
         } else {
             console.error("Unable to send message:" + err)
         }
@@ -41,7 +40,7 @@ function firstTrait(nlp: NLPType, name: string) {
 }
 
 
-export async function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
+export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
     const greetingList = [ 'wit$greetings', 'wit$datetime:$datetime', 'wit$thanks', 'wit$bye' ]
     let selectedGreeting
@@ -63,7 +62,7 @@ export async function handleMessage(sender_psid: string, received_message: { tex
         messageToSend = 'default'
     }
     callSendAPI(sender_psid, messageToSend)
-    await saveMessage(messageToSend)
+    saveMessage(messageToSend)
 }
 
 
