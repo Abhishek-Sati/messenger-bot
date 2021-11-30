@@ -43,7 +43,7 @@ function firstTrait(nlp: NLPType, name: string) {
 }
 
 
-let dob: string
+let dob: string = ''
 
 
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
@@ -68,10 +68,12 @@ export function handleMessage(sender_psid: string, received_message: { text: str
         messageToSend = 'Your Welcome'
     } else if (selectedGreeting === 'wit$bye') {
         messageToSend = 'Bye, have a nice day ahead!'
-    } else if (received_message.text?.toLocaleLowerCase().startsWith('y')) {
-        messageToSend = `${daysRemaining(dob)} remaining till your next birth day!`
-    } else if (received_message.text?.toLocaleLowerCase().startsWith('n')) {
+    } else if (dob && received_message.text?.toLocaleLowerCase().startsWith('y')) {
+        messageToSend = `${daysRemaining(dob)} days remaining till your next birth day!`
+        dob = ''
+    } else if (dob && received_message.text?.toLocaleLowerCase().startsWith('n')) {
         messageToSend = `Good Bye!`
+        dob = ''
     } else {
         messageToSend = 'Sorry, I don’t Understand'
     }
