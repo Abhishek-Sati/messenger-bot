@@ -43,6 +43,9 @@ function firstTrait(nlp: NLPType, name: string) {
 }
 
 
+let dob: string
+
+
 export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
     const greetingList = [ 'wit$greetings', 'wit$datetime:$datetime', 'wit$thanks', 'wit$bye' ]
@@ -56,8 +59,9 @@ export function handleMessage(sender_psid: string, received_message: { text: str
     const isValidDate = moment(received_message.text, 'YYYY-MM-DD', true).isValid()
     if (isValidDate) {
         messageToSend = 'Do want to check number of days left for your next birthday?'
+        dob = received_message.text
     } else if (selectedGreeting === 'wit$greetings') {
-        messageToSend = 'Hey, Enter your first Name!'
+        messageToSend = 'Hey, Enter your Name!'
     } else if (nlp(received_message.text).people()?.list?.length) {
         messageToSend = 'Enter Your date of birth, in YYYY-MM-DD format'
     } else if (selectedGreeting === 'wit$thanks') {
@@ -65,22 +69,11 @@ export function handleMessage(sender_psid: string, received_message: { text: str
     } else if (selectedGreeting === 'wit$bye') {
         messageToSend = 'Bye, have a nice day ahead!'
     } else if (received_message.text?.toLocaleLowerCase().startsWith('y')) {
-        messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
+        messageToSend = `${daysRemaining(dob)} remaining till your next birth day!`
     } else if (received_message.text?.toLocaleLowerCase().startsWith('n')) {
         messageToSend = `Good Bye!`
-    }
-    // else if (nlp(received_message.text).verbs().isPositive()) {
-    //     messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
-    // } else if (nlp(received_message.text).verbs().isNegative()) {
-    //     messageToSend = `Good Bye!`
-    // }
-    else {
+    } else {
         messageToSend = 'Sorry, I don’t Understand'
-        console.log(nlp('no').verbs().isPositive())
-        console.log(nlp('yes').verbs().isPositive())
-        console.log(nlp('no').verbs().isNegative())
-        console.log(nlp('yes').verbs().isNegative())
-
     }
     callSendAPI(sender_psid, messageToSend)
     saveMessage(messageToSend)
