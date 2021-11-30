@@ -19,9 +19,10 @@ function callSendAPI(sender_psid: string, response: any) {
         "qs": { "access_token": process.env.FACEBOOK_PAGE_TOKEN },
         "method": "POST",
         "json": request_body
-    }, (err, res, body) => {
+    }, async (err, res, body) => {
         if (!err) {
-            console.log('message sent!', response)
+            const res = await saveMessage(response)
+            console.log('message sent!', response, res)
         } else {
             console.error("Unable to send message:" + err)
         }
@@ -40,7 +41,7 @@ function firstTrait(nlp: NLPType, name: string) {
 }
 
 
-export function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
+export async function handleMessage(sender_psid: string, received_message: { text: string, nlp: NLPType }) {
     // check greeting is here and is confident
     const greetingList = [ 'wit$greetings', 'wit$datetime:$datetime', 'wit$thanks', 'wit$bye' ]
     let selectedGreeting
@@ -62,7 +63,8 @@ export function handleMessage(sender_psid: string, received_message: { text: str
         messageToSend = 'default'
     }
     callSendAPI(sender_psid, messageToSend)
-    saveMessage(messageToSend)
+    const response = await saveMessage(messageToSend)
+    console.log('response from db : ', response)
 }
 
 
