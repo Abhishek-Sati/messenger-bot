@@ -1,6 +1,8 @@
 // Handles messages events
 import request from 'request'
 import { saveMessage } from "../repositories/message"
+import moment from "moment"
+import { daysRemaining } from "../utils/helpers"
 
 
 // Sends response messages via the Send API
@@ -50,7 +52,10 @@ export function handleMessage(sender_psid: string, received_message: { text: str
             selectedGreeting = greeting
         }
     })
-    if (selectedGreeting === 'wit$greetings') {
+    const isValidDate = moment(received_message.text, 'YYYY-MM-DD', true).isValid()
+    if (isValidDate) {
+        messageToSend = `${daysRemaining(received_message.text)} remaining till your next birth day!`
+    } else if (selectedGreeting === 'wit$greetings') {
         messageToSend = 'Hey, Enter your first Name!'
     } else if (selectedGreeting === 'wit$datetime:$datetime') {
         messageToSend = 'Do want to check number of days left for your next birthday?'
