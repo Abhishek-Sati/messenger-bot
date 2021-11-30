@@ -6,7 +6,8 @@ const connection = {
     database: process.env.PGDATABASE,
     user: process.env.PGUSER,
     password: process.env.PGPASSWORD,
-    url: process.env.PGURI
+    connectionString: process.env.PGURI,
+    ssl: { rejectUnauthorized: false }
 }
 
 export const knexConfig = {
